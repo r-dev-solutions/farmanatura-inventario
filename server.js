@@ -62,12 +62,12 @@ const inventorySchema = new mongoose.Schema({
         enum: ['Vitamina', 'Mineral', 'Herbal', 'Proteína', 'Probiótico', 'Otro']
     },
      ingredientes: [{
-        nombre: String,
-        precio: {
-            type: String,
-            match: [/^C\$[0-9]+(\.[0-9]{2})?$/, 'El precio debe estar en formato C$ (ej: C$100 o C$99.99)']
-        }
+        nombre: String
     }],
+    precio: {
+        type: String,
+        match: [/^C\$[0-9]+(\.[0-9]{2})?$/, 'El precio debe estar en formato C$ (ej: C$100 o C$99.99)']
+    },
     instruccionesUso: {
         type: String,
         maxlength: [1000, 'Las instrucciones no pueden exceder 1000 caracteres']
