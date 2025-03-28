@@ -57,14 +57,14 @@ const inventorySchema = new mongoose.Schema({
         nombre: String,
         cantidad: String
     }],
-    dosis: {
+    instruccionesUso: {
         type: String,
-        required: true
+        maxlength: [1000, 'Las instrucciones no pueden exceder 1000 caracteres']
     },
-    forma: {
-        type: String,
-        enum: ['Tableta', 'Cápsula', 'Polvo', 'Líquido', 'Softgel', 'Gomita'],
-        required: true
+    descuento: {
+        type: Number,
+        min: [0, 'El descuento no puede ser negativo'],
+        max: [100, 'El descuento no puede exceder 100%']
     },
     cantidad: {
         type: Number,
@@ -76,30 +76,9 @@ const inventorySchema = new mongoose.Schema({
         required: true,
         min: [0, 'El precio no puede ser negativo']
     },
-    marca: {
-        type: String,
-        required: true
-    },
-    certificaciones: [{
-        type: String,
-        enum: ['GMP', 'Orgánico USDA', 'No-GMO', 'Vegano', 'Sin Gluten', 'Kosher']
-    }],
     fechaExpiracion: {
         type: Date,
         required: true
-    },
-    numeroLote: {
-        type: String,
-        required: true
-    },
-    condicionesAlmacenamiento: {
-        type: String,
-        enum: ['Temperatura Ambiente', 'Refrigerado', 'Congelado']
-    },
-    advertencias: [String],
-    publicoObjetivo: {
-        type: String,
-        enum: ['Adultos', 'Niños', 'Adultos Mayores', 'Mujeres Embarazadas', 'Todos']
     },
     urlImagen1: {
         type: String,
