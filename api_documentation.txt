@@ -1,0 +1,89 @@
+FarmaNatura Inventory API Documentation
+=======================================
+
+Base URL: https://your-render-url.onrender.com
+
+Authentication
+--------------
+POST /api/register
+- Register a new user
+- Request Body:
+  {
+    "username": "string",
+    "password": "string"
+  }
+
+POST /api/login
+- Authenticate and get JWT token
+- Request Body:
+  {
+    "username": "string",
+    "password": "string"
+  }
+- Response:
+  {
+    "token": "jwt_token"
+  }
+
+Inventory Endpoints
+-------------------
+GET /api/inventory
+- Get all inventory items
+- Requires authentication
+
+GET /api/inventory/:id
+- Get single inventory item by ID
+- Requires authentication
+
+POST /api/inventory
+- Create new inventory item
+- Requires authentication
+- Request Body:
+  {
+    "nombre": "string",
+    "descripcion": "string",
+    "categoria": ["Vitamina", "Mineral", "Herbal", "Proteína", "Probiótico", "Otro"],
+    "ingredientes": [{"nombre": "string", "cantidad": "string"}],
+    "dosis": "string",
+    "forma": ["Tableta", "Cápsula", "Polvo", "Líquido", "Softgel", "Gomita"],
+    "cantidad": number,
+    "precio": number,
+    "marca": "string",
+    "certificaciones": ["GMP", "Orgánico USDA", "No-GMO", "Vegano", "Sin Gluten", "Kosher"],
+    "fechaExpiracion": "date",
+    "numeroLote": "string",
+    "condicionesAlmacenamiento": ["Temperatura Ambiente", "Refrigerado", "Congelado"],
+    "advertencias": ["string"],
+    "publicoObjetivo": ["Adultos", "Niños", "Adultos Mayores", "Mujeres Embarazadas", "Todos"],
+    "urlImagen1": "string",
+    "urlImagen2": "string",
+    "urlImagen3": "string",
+    "urlImagen4": "string",
+    "urlImagen5": "string"
+  }
+
+PUT /api/inventory/:id
+- Update existing inventory item
+- Requires authentication
+- Request Body: Same as POST, but all fields are optional
+
+DELETE /api/inventory/:id
+- Delete inventory item
+- Requires authentication
+
+Health Check
+------------
+GET /api/health
+- Check API status
+- Response:
+  {
+    "status": "healthy"
+  }
+
+Environment Variables
+--------------------
+PORT=3002
+MONGO_URI=mongodb+srv://caritoprocha:MYPJKrMM9R9che1e@cluster0.iybxy.mongodb.net/farmanatura-db?retryWrites=true&w=majority&appName=Cluster0
+ALLOWED_ORIGINS=http://localhost:3000,http://your-frontend-domain.com
+JWT_SECRET=3f7e8a9b5c6d4e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6
+JWT_EXPIRES_IN=1d

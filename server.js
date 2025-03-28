@@ -215,47 +215,62 @@ app.use((err, req, res, next) => {
     res.status(500).json({ message: 'Something went wrong!' });
 });
 
-// Add user schema
-const userSchema = new mongoose.Schema({
-    username: { type: String, unique: true, required: true },
-    password: { type: String, required: true }
-});
-const User = mongoose.model('User', userSchema);
+// Remove user schema and authentication routes
+// const userSchema = new mongoose.Schema({
+//     username: { type: String, unique: true, required: true },
+//     password: { type: String, required: true }
+// });
+// const User = mongoose.model('User', userSchema);
 
-// Add authentication routes
-app.post('/api/register', validate([
-    body('username').isLength({ min: 3 }),
-    body('password').isLength({ min: 6 })
-]), async (req, res) => {
-    try {
-        const hashedPassword = await bcrypt.hash(req.body.password, 10);
-        const user = new User({
-            username: req.body.username,
-            password: hashedPassword
-        });
-        await user.save();
-        res.status(201).json({ message: 'User registered successfully' });
-    } catch (err) {
-        res.status(400).json({ message: err.message });
-    }
-});
+// Remove register and login routes
+// app.post('/api/register', validate([
+//     body('username').isLength({ min: 3 }),
+//     body('password').isLength({ min: 6 })
+// ]), async (req, res) => {
+//     try {
+//         const hashedPassword = await bcrypt.hash(req.body.password, 10);
+//         const user = new User({
+//             username: req.body.username,
+//             password: hashedPassword
+//         });
+//         await user.save();
+//         res.status(201).json({ message: 'User registered successfully' });
+//     } catch (err) {
+//         res.status(400).json({ message: err.message });
+//     }
+// });
 
-app.post('/api/login', validate([
-    body('username').exists(),
-    body('password').exists()
-]), async (req, res) => {
-    try {
-        const user = await User.findOne({ username: req.body.username });
-        if (!user || !await bcrypt.compare(req.body.password, user.password)) {
-            return res.status(400).json({ message: 'Invalid credentials' });
-        }
+// app.post('/api/login', validate([
+//     body('username').exists(),
+//     body('password').exists()
+// ]), async (req, res) => {
+//     try {
+//         const user = await User.findOne({ username: req.body.username });
+//         if (!user || !await bcrypt.compare(req.body.password, user.password)) {
+//             return res.status(400).json({ message: 'Invalid credentials' });
+//         }
         
-        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-            expiresIn: process.env.JWT_EXPIRES_IN
-        });
-        res.json({ token });
+//         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+//             expiresIn: process.env.JWT_EXPIRES_IN
+//         });
+//         res.json({ token });
+//     } catch (err) {
+//         res.status(500).json({ message: err.message });
+//     }
+// });
+
+// Add a simple token verification endpoint
+app.post('/api/verify-token', (req, res) => {
+    const token = req.body.token;
+    if (!token) {
+        return res.status(400).json({ message: 'Token is required' });
+    }
+    
+    try {
+        jwt.verify(token, process.env.JWT_SECRET);
+        res.json({ valid: true });
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        res.status(401).json({ valid: false, message: 'Invalid token' });
     }
 });
 
