@@ -1,43 +1,18 @@
 FarmaNatura Inventory API Documentation
 =======================================
 
-Base URL: https://your-render-url.onrender.com
-
-Authentication
---------------
-POST /api/register
-- Register a new user
-- Request Body:
-  {
-    "username": "string",
-    "password": "string"
-  }
-
-POST /api/login
-- Authenticate and get JWT token
-- Request Body:
-  {
-    "username": "string",
-    "password": "string"
-  }
-- Response:
-  {
-    "token": "jwt_token"
-  }
+Base URL: https://farmanatura-inventario.onrender.com
 
 Inventory Endpoints
 -------------------
 GET /api/inventory
 - Get all inventory items
-- Requires authentication
 
 GET /api/inventory/:id
 - Get single inventory item by ID
-- Requires authentication
 
 POST /api/inventory
 - Create new inventory item
-- Requires authentication
 - Request Body:
   {
     "nombre": "string",
@@ -64,12 +39,10 @@ POST /api/inventory
 
 PUT /api/inventory/:id
 - Update existing inventory item
-- Requires authentication
 - Request Body: Same as POST, but all fields are optional
 
 DELETE /api/inventory/:id
 - Delete inventory item
-- Requires authentication
 
 Health Check
 ------------
