@@ -37,6 +37,14 @@ mongoose.connect(process.env.MONGO_URI)
 
 // Define Inventory Schema directly in server.js
 const inventorySchema = new mongoose.Schema({
+    codigoProducto: {
+        type: String,
+        required: [true, 'El código del producto es requerido'],
+        unique: true,
+        trim: true,
+        maxlength: [20, 'El código no puede exceder 20 caracteres'],
+        match: [/^[A-Z0-9-]+$/, 'El código debe contener solo letras mayúsculas, números y guiones']
+    },
     nombre: {
         type: String,
         required: [true, 'El nombre del producto es requerido'],
