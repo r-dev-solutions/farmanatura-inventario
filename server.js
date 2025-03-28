@@ -65,12 +65,14 @@ const inventorySchema = new mongoose.Schema({
         nombre: String
     }],
     precioC$: {
+        type: Number, // Ensure this is a Number type
         required: true,
         min: [0, 'El precio no puede ser negativo']
     },
-    instruccionesUso: {
-        type: String,
-        maxlength: [1000, 'Las instrucciones no pueden exceder 1000 caracteres']
+    Precio$: {
+        type: Number, // Ensure this is a Number type
+        required: true,
+        min: [0, 'El precio no puede ser negativo']
     },
     descuento: {
         type: Number,
@@ -119,6 +121,16 @@ const inventorySchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     }
+});
+
+// Virtual field for precioC$ with descuento
+inventorySchema.virtual('precioCConDescuento').get(function() {
+    return this.precioC$ * (1 - this.descuento / 100);
+});
+
+// Virtual field for Precio$ with descuento
+inventorySchema.virtual('precioConDescuento').get(function() {
+    return this.Precio$ * (1 - this.descuento / 100);
 });
 
 // Update the updatedAt field before saving
