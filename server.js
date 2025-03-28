@@ -164,11 +164,22 @@ app.get('/api/inventory/:id', async (req, res) => {
 
 // POST new inventory item
 app.post('/api/inventory', validate([
+    body('codigoProducto').isString().notEmpty(),
     body('nombre').isString().notEmpty(),
     body('descripcion').isString().notEmpty(),
     body('categoria').isIn(['Vitamina', 'Mineral', 'Herbal', 'Proteína', 'Probiótico', 'Otro']),
+    body('ingredientes').isArray(),
+    body('precioC$').isFloat({ min: 0 }),
+    body('Precio$').isFloat({ min: 0 }),
+    body('descuento').isFloat({ min: 0, max: 100 }),
     body('cantidad').isInt({ min: 0 }),
-    body('precio').isFloat({ min: 0 })
+    body('fechaExpiracion').isISO8601(),
+    body('urlImagen1').optional().isURL(),
+    body('urlImagen2').optional().isURL(),
+    body('urlImagen3').optional().isURL(),
+    body('urlImagen4').optional().isURL(),
+    body('urlImagen5').optional().isURL(),
+    body('instruccionesUso').optional().isString()
 ]), async (req, res) => {
     try {
         const newItem = new Inventory(req.body);
@@ -181,11 +192,22 @@ app.post('/api/inventory', validate([
 
 // PUT update inventory item
 app.put('/api/inventory/:id', validate([
+    body('codigoProducto').optional().isString().notEmpty(),
     body('nombre').optional().isString().notEmpty(),
     body('descripcion').optional().isString().notEmpty(),
     body('categoria').optional().isIn(['Vitamina', 'Mineral', 'Herbal', 'Proteína', 'Probiótico', 'Otro']),
+    body('ingredientes').optional().isArray(),
+    body('precioC$').optional().isFloat({ min: 0 }),
+    body('Precio$').optional().isFloat({ min: 0 }),
+    body('descuento').optional().isFloat({ min: 0, max: 100 }),
     body('cantidad').optional().isInt({ min: 0 }),
-    body('precio').optional().isFloat({ min: 0 })
+    body('fechaExpiracion').optional().isISO8601(),
+    body('urlImagen1').optional().isURL(),
+    body('urlImagen2').optional().isURL(),
+    body('urlImagen3').optional().isURL(),
+    body('urlImagen4').optional().isURL(),
+    body('urlImagen5').optional().isURL(),
+    body('instruccionesUso').optional().isString()
 ]), async (req, res) => {
     try {
         const item = await Inventory.findByIdAndUpdate(
