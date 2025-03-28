@@ -64,9 +64,9 @@ const inventorySchema = new mongoose.Schema({
      ingredientes: [{
         nombre: String
     }],
-    precio: {
-        type: String,
-        match: [/^C\$[0-9]+(\.[0-9]{2})?$/, 'El precio debe estar en formato C$ (ej: C$100 o C$99.99)']
+    precioC$: {
+        required: true,
+        min: [0, 'El precio no puede ser negativo']
     },
     instruccionesUso: {
         type: String,
