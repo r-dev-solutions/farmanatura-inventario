@@ -338,3 +338,9 @@ app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 app.get('/api/health', (req, res) => {
     res.status(200).json({ status: 'healthy' });
 });
+
+// Configure CORS
+app.use(cors({
+  origin: 'https://farmanatura-inventario.onrender.com',
+  credentials: true
+}));
